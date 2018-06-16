@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="367.0" prefWidth="554.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="gpstaller2.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="516.0" prefWidth="554.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gpstaller2.FXMLDocumentController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
       <GridPane layoutX="26.0" layoutY="30.0" prefHeight="173.0" prefWidth="509.0">
@@ -34,5 +34,13 @@
             <Button fx:id="btnRunCsv" mnemonicParsing="false" onAction="#actionRunCsv" prefHeight="27.0" prefWidth="66.0" text="Run" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
       </GridPane>
+      <TableView fx:id="tvPhrase" layoutX="27.0" layoutY="129.0" prefHeight="200.0" prefWidth="501.0">
+        <columns>
+          <TableColumn fx:id="tcPhrase" prefWidth="412.0" text="Phrase" />
+          <TableColumn fx:id="tcType" minWidth="0.0" prefWidth="88.0" text="Type" />
+        </columns>
+      </TableView>
+      <Text fx:id="txtRegistros" layoutX="27.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="txtTiempo" layoutX="27.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" />
     </children>
 </AnchorPane>

@@ -18,12 +18,19 @@ import javafx.scene.control.TextField;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
+import gpstaller2.Phrases;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -37,6 +44,17 @@ public class FXMLDocumentController implements Initializable {
     Button btnRun;
     @FXML
     Button btnRunCsv;
+    @FXML
+    TableView<Phrases> tvPhrase;
+    ObservableList<Phrases> frases;
+    @FXML
+    TableColumn tcPhrase;
+    @FXML
+    TableColumn tcType;
+    @FXML
+    Text txtRegistros;
+    @FXML
+    Text txtTiempo;
     String phrase;
 
     String[] sujeto = {"PRP", "NNP", "NNPS"};
@@ -47,6 +65,8 @@ public class FXMLDocumentController implements Initializable {
 
     InputStream tokenModelIn = null;
     InputStream posModelIn = null;
+    
+
     @FXML
     public void actionRunCsv(ActionEvent event){
         String csvFile = "archivo.csv";
@@ -54,13 +74,19 @@ public class FXMLDocumentController implements Initializable {
         String line = "";
         //Se define separador ","
         String cvsSplitBy = ",";
+        int cantRegistros =0;
         try {
             br = new BufferedReader(new FileReader(csvFile));
+            long startTime = System.nanoTime();
             while ((line = br.readLine()) != null) {
                 String[] datos = line.split(cvsSplitBy);
+                cantRegistros=cantRegistros+1;
                 //Imprime datos.
                 validarPhrase(datos[0]);
             }
+            long endTime = System.nanoTime();
+            txtRegistros.setText("Cantidad de registros analizados: " + cantRegistros);
+            txtTiempo.setText("Duración: " + (endTime-startTime)/1e6 + " ms");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -130,11 +156,11 @@ public class FXMLDocumentController implements Initializable {
 
             }
             if (posicionSujeto == -1) {
-                System.out.println("The Phrase : "+sentence+" is Passive");
+                this.cargarDatosTableView(sentence, "Passive") ;
             } else if (posicionSujeto < posicionAcciones) {
-                System.out.println("The Phrase : "+sentence+" is Active");
+                this.cargarDatosTableView(sentence, "Active") ;
             } else {
-                System.out.println("The Phrase : "+sentence+" is Passive");
+                this.cargarDatosTableView(sentence, "Passive") ;
             }
 
         } catch (IOException e) {
@@ -155,9 +181,26 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+    public void cargarDatosTableView(String getFrase, String getTipo) {
+        
+                Phrases obtenerPhrase = new Phrases();
+                obtenerPhrase.frase.set(getFrase);
+                obtenerPhrase.tipo.set(getTipo);
+                frases.add(obtenerPhrase);
+            
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+        // Inicializamos la tabla
 
+       this.inicializarTablaPhrases();
+    }
+    private void inicializarTablaPhrases() {
+        tcPhrase.setCellValueFactory(new PropertyValueFactory<Phrases, String>("frase"));
+        tcType.setCellValueFactory(new PropertyValueFactory<Phrases, String>("tipo"));
+        frases = FXCollections.observableArrayList();
+        tvPhrase.setItems(frases);
+    }
+    
 }

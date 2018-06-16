@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="GPSTaller2.jar" size="8311" download="eager" />
+    <jar href="GPSTaller2.jar" size="9780" download="eager" />
     <jar href="lib/aopalliance-repackaged-2.5.0-b30.jar" size="14766" download="eager" />
     <jar href="lib/grizzly-framework-2.3.28.jar" size="901337" download="eager" />
     <jar href="lib/grizzly-http-2.3.28.jar" size="339333" download="eager" />
